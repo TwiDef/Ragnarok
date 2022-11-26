@@ -1,6 +1,9 @@
+import 'swiper/swiper.min.css';
 import '../styles/reset.scss';
 import '../styles/mixins.scss';
 import '../styles/style.scss';
+
+import Swiper, { Navigation } from 'swiper';
 
 const checkboxes = {
     requirements: ["minimum", "recomended"],
@@ -94,6 +97,22 @@ const handleCheckbox = ({ currentTarget: { checked, name } }) => {
 
 };
 
+const initSlider = () => {
+    new Swiper(".swiper", {
+        loop: true,
+        slidesPerView: 3,
+        spaceBetween: 20,
+        initialSlide: 2,
+        modules: [Navigation],
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        }
+
+    });
+};
+
+initSlider();
 startTimer("November 29, 2022 00:00:00");
 menuButton.addEventListener('click', toggleMenu);
 videoButton.addEventListener('click', handleVideo);
