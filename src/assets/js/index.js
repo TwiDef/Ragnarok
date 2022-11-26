@@ -22,6 +22,8 @@ const menuLink = document.querySelectorAll('.menu-link');
 const menuButton = document.querySelector('.header-menu__button');
 const video = document.getElementById('video');
 const videoButton = document.querySelector('.video-btn');
+const faqItem = document.querySelectorAll('.faq-item');
+const sections = document.querySelectorAll('.section');
 
 
 const toggleMenu = () => header.classList.toggle(classes.opened);
@@ -107,17 +109,33 @@ const initSlider = () => {
         navigation: {
             nextEl: '.swiper-button-next',
             prevEl: '.swiper-button-prev',
-        }
+        },
+    });
+};
 
+const handleFaqItem = ({ currentTarget: target }) => {
+    target.classList.toggle(classes.opened);
+    const isOpened = target.classList.contains(classes.opened);
+    const height = target.querySelector('p').clientHeight;
+    const content = target.querySelector('.faq-item__content');
+
+    content.style.height = `${isOpened ? height : 0}px`;
+};
+
+const handleScroll = () => {
+    const { scrollY: y, innerHeight: h } = window;
+    sections.forEach((section) => {
+        if (y > section.offsetTop - h / 1.5) {
+            section.classList.remove(classes.hidden);
+        }
     });
 };
 
 initSlider();
 startTimer("November 29, 2022 00:00:00");
+window.addEventListener('scroll', handleScroll);
 menuButton.addEventListener('click', toggleMenu);
 videoButton.addEventListener('click', handleVideo);
 menuLink.forEach((link) => link.addEventListener('click', scrollToSection));
 checkbox.forEach((box) => box.addEventListener('click', handleCheckbox));
-
-
-/* 3:06:10 */
+faqItem.forEach((item) => item.addEventListener('click', handleFaqItem));
