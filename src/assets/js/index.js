@@ -4,6 +4,7 @@ import '../styles/mixins.scss';
 import '../styles/style.scss';
 
 import Swiper, { Navigation } from 'swiper';
+import { languages } from './languages';
 
 const checkboxes = {
     requirements: ["minimum", "recomended"],
@@ -24,6 +25,7 @@ const video = document.getElementById('video');
 const videoButton = document.querySelector('.video-btn');
 const faqItem = document.querySelectorAll('.faq-item');
 const sections = document.querySelectorAll('.section');
+const language = document.querySelectorAll('.language');
 
 
 const toggleMenu = () => header.classList.toggle(classes.opened);
@@ -131,6 +133,26 @@ const handleScroll = () => {
     });
 };
 
+const setTexts = () => {
+    const lang = localStorage.getItem('lang') || 'en';
+    const content = languages[lang];
+
+    Object.entries(content).forEach(([key, value]) => {
+        const items = document.querySelectorAll(`[data-text="${key}"]`);
+        items.forEach((item) => (item.innerText = value));
+    });
+};
+
+const toggleLanguage = ({ target }) => {
+    const { lang } = target.dataset;
+    if (!lang) {
+        return;
+    }
+    localStorage.setItem('lang', lang);
+    setTexts();
+};
+
+setTexts();
 initSlider();
 startTimer("November 29, 2022 00:00:00");
 window.addEventListener('scroll', handleScroll);
@@ -139,3 +161,4 @@ videoButton.addEventListener('click', handleVideo);
 menuLink.forEach((link) => link.addEventListener('click', scrollToSection));
 checkbox.forEach((box) => box.addEventListener('click', handleCheckbox));
 faqItem.forEach((item) => item.addEventListener('click', handleFaqItem));
+language.forEach((lang) => lang.addEventListener('click', toggleLanguage));
